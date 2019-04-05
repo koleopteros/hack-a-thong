@@ -1,14 +1,15 @@
 #body {
     display: flex;
-    flex-direction: column;
+    flex-flow: row wrap;
     min-height: 650px;
     justify-content: center;
-    align-items: center;
     background-color: #69F0AE;
 }
 
 #countDown {
     font-size: 50px;
+    width: 100%;
+    text-align: center;
 }
 
 .item {

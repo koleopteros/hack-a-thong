@@ -42,7 +42,8 @@ export class HomeComponent implements OnInit {
   get code() { return this.loginForm.get('code')}
 
   toRoom() {
-    window.location.assign('/room')
+    if(!this.loginForm.invalid)
+      window.location.assign('/room')
   }
 
 }

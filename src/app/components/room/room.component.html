@@ -2,24 +2,25 @@
     <mat-drawer mode="over" #drawer>
       <h1>List of users</h1>
       <mat-divider></mat-divider>
-      <p>Hao Bui</p>
-      <p>Quan Trinh</p>
-      <p>Chris</p>
-      <p>Tam Dang</p>
-      <p>Jerome</p>
-      <button mat-raised-button color="accent" (click)="leaveRoom()">Leave Room</button>
+      <div *ngFor="let user of users">
+        <p *ngIf="user.role === 'host'"><b>{{user.name}}</b></p>
+        <p *ngIf="user.role !== 'host'">{{user.name}}</p>
+      </div>
+      <button mat-raised-button color="warn" (click)="leaveRoom()">Leave Room</button>
     </mat-drawer>
     <mat-drawer-content>
     <button id="slide" mat-raised-button (click)="drawer.toggle()"><mat-icon>view_list</mat-icon></button>
     <div id="body">
       <h1 id="countDown">{{countDown}}</h1>
-        <div class="tile mat-elevation-z8">
-          <h2>What is the name of the first President of the USA?</h2>
-          <div class="item"><button mat-raised-button>Abraham Lincoln</button></div>
-          <div class="item"><button mat-raised-button>Donald Trump</button></div>
-          <div class="item"><button mat-raised-button>John F. Kennedy</button></div>
-          <div class="item"><button mat-raised-button>Bill Clinton</button></div>
+      <div class="tile mat-elevation-z8" *ngFor="let q of bankOfQuestions">
+        <h2>{{q.quiz}}</h2>
+        <div>
+        <div class="item"><button mat-raised-button>{{q.a}}</button></div>
+        <div class="item"><button mat-raised-button>{{q.b}}</button></div>
+        <div class="item"><button mat-raised-button>{{q.c}}</button></div>
+        <div class="item"><button mat-raised-button>{{q.d}}</button></div>
         </div>
+      </div>
     </div>
     </mat-drawer-content>
 </mat-drawer-container>
