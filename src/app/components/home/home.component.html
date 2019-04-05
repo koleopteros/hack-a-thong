@@ -1,0 +1,30 @@
+<app-side-nav>
+<div id="body">
+  <img src="assets/gadget.png" [@rotate]="state">
+  <h1>Jack Box Party</h1>
+  <form [formGroup]="loginForm">
+  <div class="tile mat-elevation-z8">
+      <div class="item">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter a nickname...</mat-label>
+          <input matInput type="text" formControlName="nickname">
+          <mat-icon matSuffix>account_circle</mat-icon>
+          <mat-error *ngIf="nickname.invalid" align="center">Nickname is required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="item">
+        <mat-form-field appearance="outline">
+            <mat-label>Enter given code</mat-label>
+          <input matInput type="text" formControlName="code">
+          <mat-icon matSuffix>code</mat-icon>
+          <mat-error *ngIf="code.invalid" align="center">Code is required</mat-error>
+        </mat-form-field>
+      </div>
+    <div class="item">
+      <button mat-raised-button color="accent" (click)="toRoom()">JOIN ROOM</button>
+    </div>
+  </div>
+  </form>
+</div>
+</app-side-nav>  

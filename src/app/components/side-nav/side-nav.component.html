@@ -1,0 +1,14 @@
+<mat-drawer-container>
+  <mat-drawer mode="over" #drawer>
+    <h1>Navigation Controls</h1>
+    <mat-divider></mat-divider>
+    <div class="side-item" routerLinkActive="active" routerLink="/home"><h3>Home</h3></div>
+    <div class="side-item"><h3>About Us</h3></div>
+    <div class="side-item"><h3>Repository</h3></div>
+    <div class="side-item"><h3>API</h3></div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <button id="side" mat-raised-button (click)="drawer.toggle()"><mat-icon>supervised_user_circle</mat-icon></button>
+    <ng-content></ng-content>
+  </mat-drawer-content>
+</mat-drawer-container>

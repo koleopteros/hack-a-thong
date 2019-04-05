@@ -1,0 +1,23 @@
+#side {
+    margin: 10px;
+    position: absolute;
+    width: unset;
+}
+
+.side-item {
+    text-align: center;
+    border-bottom: 2px solid black;
+}
+
+.side-item:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+mat-drawer {
+    padding: 20px;
+}
+
+.active {
+    text-decoration: underline;
+}
