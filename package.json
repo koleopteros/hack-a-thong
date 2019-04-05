@@ -6,8 +6,21 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "lint": "eslint --debug back_end/",
+    "lint:write": "eslint --debug back_end/ --fix",
+    "prettier": "prettier --write back_end/**/*.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "lint-staged": {
+    "*.(js|jsx)": [
+      "npm run lint:write",
+      "git add"
+    ]
   },
   "private": true,
   "dependencies": {
