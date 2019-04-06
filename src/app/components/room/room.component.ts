@@ -66,13 +66,38 @@ export class RoomComponent implements OnInit {
   updateCountDown() {
     let interval = setInterval(() =>{
 
-      if(this.countDown ===0) 
+      if(this.countDown ===0 && this.nextQuiz()) 
         {
           clearInterval(interval)
+          this.updateCountDown()
         }
       
       this.countDown = this.timer.getCountDown() 
     } , 1000)
+  }
+
+  //display result
+  showResult() {
+    //something must be done here to display vote result
+    //need data...
+  }
+
+  //process to next pop quiz
+  nextQuiz() : boolean {
+    if(this.bankOfQuestions.length > 1) {
+      //Result should be displayed here before go to next
+      this.bankOfQuestions.shift()
+      this.timer.stopTimer()
+      this.timer.resetTimer()
+      this.timer.startTimer()
+      return true
+    }
+
+    this.timer.stopTimer()
+    this.timer.resetTimer()
+    window.location.assign('/gameover')
+
+    return false
   }
   
   //leave the room

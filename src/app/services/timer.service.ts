@@ -12,9 +12,7 @@ export class TimerService {
 
   startTimer() {
     this.timer = timer(0, 1000).subscribe(
-      () => {
-        this.countDown !==0 ? this.countDown-- : this.stopTimer()
-      }
+      () => this.countDown--
     )
   }
 
