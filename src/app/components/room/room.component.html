@@ -11,7 +11,7 @@
     <mat-drawer-content>
     <button id="slide" mat-raised-button (click)="drawer.toggle()"><mat-icon>view_list</mat-icon></button>
     <div id="body">
-        <h1 id="countDown">{{countDown}}</h1>
+        <h1 id="countDown">{{ countDown >= 0 ? countDown : 0}}</h1>
         <div class="tile start mat-elevation-z8" *ngIf="!isStarted">
           <button mat-raised-button color="accent" (click)="start()">Start Game</button>
         </div>

@@ -66,20 +66,26 @@ export class RoomComponent implements OnInit {
   updateCountDown() {
     let interval = setInterval(() =>{
 
-      if(this.countDown ===0 && this.nextQuiz()) 
+      if(this.countDown ===0) 
         {
-          clearInterval(interval)
-          this.updateCountDown()
+          //result display here for 10s
+          this.showResult()
         }
+        //if timer hits -10 then process to next quiz
+      else if(this.countDown === -10 && this.nextQuiz()) {
+        clearInterval(interval)
+        this.updateCountDown()
+      }
       
-      this.countDown = this.timer.getCountDown() 
+      this.countDown = this.timer.getCountDown()
     } , 1000)
   }
 
-  //display result
+  //display result for 10s
   showResult() {
     //something must be done here to display vote result
     //need data...
+    console.log("show result")
   }
 
   //process to next pop quiz
