@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { TimerService } from 'src/app/services/timer.service';
 
 @Component({
   selector: 'app-room',
@@ -9,6 +9,7 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 export class RoomComponent implements OnInit {
 
   countDown: number = 10
+  isStarted = false;
   //Where we should obtain list of user from backend
   //This is mockup database
   //list of users
@@ -27,23 +28,57 @@ export class RoomComponent implements OnInit {
       b: 'Donald Trump',
       c: 'John F. Kennedy',
       d: 'Bill Clinton'
-    }
+    },
+
+    {
+      quiz: 'What is the shape of Earth',
+      a: 'Flat!!!',
+      b: 'Earth Shape',
+      c: 'I dont know',
+      d: 'Bill Clinton'
+    },
+
+    {
+      quiz: 'Most loved animal in the world',
+      a: 'Dog',
+      b: 'Cat',
+      c: 'Doggo',
+      d: 'Doge'
+    },
+
   ]
   constructor(
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog) { }
+    private timer: TimerService) { }
 
   ngOnInit() {
+    // this.timer.startTimer()
+    // this.updateCountDown()
+  }
+
+  //when the host clicks start game
+  start() {
+    this.isStarted = !this.isStarted
+    this.timer.startTimer()
+    this.updateCountDown()
+  }
+
+  //Countdown must be update every 1 second
+  updateCountDown() {
     let interval = setInterval(() =>{
-      this.countDown !== 0 ? this.countDown-- : clearInterval(interval)
+
+      if(this.countDown ===0) 
+        {
+          clearInterval(interval)
+        }
+      
+      this.countDown = this.timer.getCountDown() 
     } , 1000)
   }
   
+  //leave the room
   leaveRoom() {
     if(window.confirm("Are you sure you want to leave?"))
       window.location.assign('/home')
-  }
-  openDialog(message) {
   }
 
 }

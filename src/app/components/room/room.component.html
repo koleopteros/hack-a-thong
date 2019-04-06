@@ -11,16 +11,21 @@
     <mat-drawer-content>
     <button id="slide" mat-raised-button (click)="drawer.toggle()"><mat-icon>view_list</mat-icon></button>
     <div id="body">
-      <h1 id="countDown">{{countDown}}</h1>
-      <div class="tile mat-elevation-z8" *ngFor="let q of bankOfQuestions">
-        <h2>{{q.quiz}}</h2>
-        <div>
-        <div class="item"><button mat-raised-button>{{q.a}}</button></div>
-        <div class="item"><button mat-raised-button>{{q.b}}</button></div>
-        <div class="item"><button mat-raised-button>{{q.c}}</button></div>
-        <div class="item"><button mat-raised-button>{{q.d}}</button></div>
+        <h1 id="countDown">{{countDown}}</h1>
+        <div class="tile start mat-elevation-z8" *ngIf="!isStarted">
+          <button mat-raised-button color="accent" (click)="start()">Start Game</button>
         </div>
-      </div>
+        <div *ngFor="let q of bankOfQuestions, let i = index">
+          <div class="tile mat-elevation-z8" *ngIf="isStarted && i === 0">
+            <h2>{{q.quiz}}</h2>
+            <div>
+            <div class="item"><button mat-raised-button>{{q.a}}</button></div>
+            <div class="item"><button mat-raised-button>{{q.b}}</button></div>
+            <div class="item"><button mat-raised-button>{{q.c}}</button></div>
+            <div class="item"><button mat-raised-button>{{q.d}}</button></div>
+            </div>
+          </div>
+        </div>
     </div>
     </mat-drawer-content>
 </mat-drawer-container>
