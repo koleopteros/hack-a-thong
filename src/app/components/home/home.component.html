@@ -16,7 +16,7 @@
       <div class="item">
         <mat-form-field appearance="outline">
             <mat-label>Enter given code</mat-label>
-          <input matInput type="text" formControlName="code">
+          <input maxlength="4" class="code" matInput type="text" formControlName="code">
           <mat-icon matSuffix>code</mat-icon>
           <mat-error *ngIf="code.invalid" align="center">Code is required</mat-error>
         </mat-form-field>

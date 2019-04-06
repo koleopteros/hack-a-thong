@@ -1,14 +1,23 @@
 #body {
     display: flex;
-    flex-direction: column;
+    flex-flow: row wrap;
     min-height: 650px;
     justify-content: center;
-    align-items: center;
     background-color: #69F0AE;
+}
+
+.start {
+    justify-content: center;
+    align-items: center;
+    button {
+        font-weight: bold;
+    }
 }
 
 #countDown {
     font-size: 50px;
+    width: 100%;
+    text-align: center;
 }
 
 .item {
