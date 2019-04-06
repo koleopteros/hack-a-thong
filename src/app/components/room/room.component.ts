@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TimerService } from 'src/app/services/timer.service';
+import { WebSocketService } from 'src/app/services/web-socket.service';
 
 @Component({
   selector: 'app-room',
@@ -48,11 +49,19 @@ export class RoomComponent implements OnInit {
 
   ]
   constructor(
-    private timer: TimerService) { }
+    private timer: TimerService,
+    private webSocketService: WebSocketService) { }
 
   ngOnInit() {
     // this.timer.startTimer()
     // this.updateCountDown()
+
+    // emit join room event to socket.io server with room code and username
+    // room code and username will be passed from main-screen via url
+    this.webSocketService.emit('join room', {
+      roomName: "#givencode",
+      userName: "#userName"
+    });
   }
 
   //when the host clicks start game
