@@ -44,3 +44,7 @@ After the game is over, users can choose to restart the game or close the room
    3. "Display results and score for each user"
    4. "Repeat Steps 1-3 until X number of rounds have completed"
 
+#### Running App
+ - Downoad the app
+ - npm install
+ - npm start
