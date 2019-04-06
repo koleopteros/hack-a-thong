@@ -25,7 +25,8 @@ export class HomeComponent implements OnInit {
 
   state =false
   loginForm: FormGroup
-  constructor(private builder: FormBuilder) { }
+  constructor(
+    private builder: FormBuilder) { }
 
   ngOnInit() {
     setInterval(() => {
