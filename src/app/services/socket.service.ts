@@ -26,7 +26,6 @@ export class SocketService{
     this.socket.emit('leftGroup', data)
   }
 
-<<<<<<< HEAD
   //Notice that in javascript, objects and arrays are passed by ref
   //so this is acceptable, but for single value like number or string
   //it will pass by value thus the value won't change after function called
@@ -35,7 +34,6 @@ export class SocketService{
   }
 
   on_activeUser(users: Object[], data) {
-    console.log(data)
       if(data){
         for(var i = 0; i<data.length; i++){
           if(i==0){
@@ -53,8 +51,6 @@ export class SocketService{
       }
   }
 
-=======
->>>>>>> 204c22a66dd3f0db88cc256112e357165b216d8c
   leftUser(users: any[]) {
     this.socket.on('leftGroup', (res) => {
 
