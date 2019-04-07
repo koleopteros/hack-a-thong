@@ -13,7 +13,7 @@
     <div id="body">
         <h1 id="countDown">{{ countDown >= 0 ? countDown : 0}}</h1>
         <div class="tile start mat-elevation-z8" *ngIf="!isStarted">
-          <button mat-raised-button color="accent" (click)="start()">Start Game</button>
+          <button mat-raised-button color="accent" [disabled]="!canStart()" (click)="start()">Start Game</button>
         </div>
         <div *ngFor="let q of bankOfQuestions, let i = index">
           <div class="tile mat-elevation-z8" *ngIf="isStarted && i === 0">
@@ -23,6 +23,8 @@
             <div class="item"><button mat-raised-button>{{q.b}}</button></div>
             <div class="item"><button mat-raised-button>{{q.c}}</button></div>
             <div class="item"><button mat-raised-button>{{q.d}}</button></div>
+            <div class="item"><button mat-raised-button>{{q.e}}</button></div>
+            <div class="item"><button mat-raised-button>{{q.f}}</button></div>
             </div>
           </div>
         </div>

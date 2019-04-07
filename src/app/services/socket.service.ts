@@ -53,4 +53,12 @@ export class SocketService{
       })
   })
   }
+
+  start(data) {
+    this.socket.emit("start", data)
+  }
+
+  getSocket() {
+    return this.socket
+  }
 }
