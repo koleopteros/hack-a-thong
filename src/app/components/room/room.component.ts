@@ -74,7 +74,8 @@ export class RoomComponent implements OnInit{
       {
         this.users = []
         res.forEach(el => {
-        this.users.push({name: el, role: 'player'})
+          let role = this.users.length <= 0 ? 'host' : 'player'
+          this.users.push({name: el, role: role})
       })
       }
     })
@@ -162,7 +163,7 @@ export class RoomComponent implements OnInit{
   //number of users needed to start a game
   //only host can start a game
   canStart() {
-    return (this.users.length >= 2) 
+    return (this.users.length >= 3)
   }
 
 }
