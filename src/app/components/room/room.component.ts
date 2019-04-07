@@ -1,7 +1,8 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { TimerService } from 'src/app/services/timer.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { ActivatedRoute } from '@angular/router';
+import { VoteService } from 'src/app/services/vote.service';
 
 
 @Component({
@@ -17,13 +18,8 @@ export class RoomComponent implements OnInit{
   //Where we should obtain list of user from backend
   //This is mockup database
   //list of users
-  users = [
-    // {name: 'Bui Duy Hao', role : 'player'},
-    // {name: 'Christopher Satin', role : 'player'},
-    // {name: 'Quan Trinh', role : 'host'},
-    // {name: 'Tam Dang', role : 'player'},
-    // {name: 'Jerome Ching', role : 'player'}
-  ]
+  users = []
+
   //bank of questions, should be obtained randomly. THIS IS BACKEND JOB! ^^
   private bankOfQuestions = [
     {
@@ -57,10 +53,12 @@ export class RoomComponent implements OnInit{
     },
 
   ]
+  
   constructor(
     private timer: TimerService,
     private socket: SocketService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private voteSer: VoteService) {
       this.data = {
         user: this.route.snapshot.paramMap.get('name'),
         room: this.route.snapshot.paramMap.get('room')
@@ -76,6 +74,10 @@ export class RoomComponent implements OnInit{
       if(!this.isStarted)
         this.start()
     })
+
+    this.socket.getSocket().on("getVote", votes => {
+      this.voteSer.votes = votes
+    })
   }
 
   //when the host clicks start game
@@ -86,30 +88,36 @@ export class RoomComponent implements OnInit{
     this.updateCountDown()
   }
 
+  //when user clicks on an answer
+  vote(option){
+    this.voteSer.vote(option, this.socket.getSocket(), this.data.room)
+  }
+
+  get canVote() { return this.voteSer.canVote}
+
+  get votes() {return this.voteSer.votes}
+
+
   //Countdown must be update every 1 second
   updateCountDown() {
     let interval = setInterval(() =>{
 
       if(this.countDown ===0) 
         {
-          //result display here for 10s
-          this.showResult()
+          //if time's up and user have yet chosen, disable all
+          if(this.voteSer.canVote) this.voteSer.canVote = false
+          //Display votes
         }
         //if timer hits -10 then process to next quiz
       else if(this.countDown === -10 && this.nextQuiz()) {
         clearInterval(interval)
         this.updateCountDown()
+        this.voteSer.canVote = true
+        this.voteSer.resetVotes(this.socket.getSocket())
       }
       
       this.countDown = this.timer.getCountDown()
     } , 1000)
-  }
-
-  //display result for 10s
-  showResult() {
-    //something must be done here to display vote result
-    //need data...
-    console.log("show result")
   }
 
   //process to next pop quiz

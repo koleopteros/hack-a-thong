@@ -6,7 +6,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoURI = 'mongodb://admin:admin123@ds121238.mlab.com:21238/sheepboxhackathon'
-
+votes = [0,0,0,0]
 // Connect to Database
 mongoose
   .connect(mongoURI, { useNewUrlParser: true })
@@ -46,12 +46,17 @@ io.on('connection', socket => {
     }
   })
 
+  //vote rules
   socket.on('vote', data => {
-    io.emit('vote', {
-      user: data.user,
-      question: data.question,
-      answer: data.answer,
+    [0,1,2,3].forEach(el => {
+      if(data.option === el) votes[el]++
     })
+    io.in(data.room).emit('getVote', votes)
+  })
+
+  socket.on('resetVote', () => {
+    console.log("Votes are reseted")
+    votes = [0,0,0,0]
   })
 
   // socket when user register successfully
