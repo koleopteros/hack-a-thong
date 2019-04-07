@@ -69,7 +69,6 @@ export class RoomComponent implements OnInit{
   ngOnInit() {
     this.socket.joinRoom(this.data)
     this.socket.activateUser(this.data)
-    this.socket.leftUser(this.users)
     this.socket.getSocket().on('activeUser', res => {
       this.users = []
       if (res) this.socket.on_activeUser(this.users, res)
@@ -79,6 +78,14 @@ export class RoomComponent implements OnInit{
       if(!this.isStarted)
         this.start()
     })
+
+    this.socket.getSocket().on('leftGroup', (res) => {
+      //deep dive object
+      this.users.forEach(el => {
+        if(el.name === res.user && el.role === "player")
+          this.users.splice(this.users.indexOf(el), 1)
+      })
+  })
   }
 
   //when the host clicks start game

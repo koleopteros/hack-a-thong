@@ -52,14 +52,7 @@ export class SocketService{
   }
 
   leftUser(users: any[]) {
-    this.socket.on('leftGroup', (res) => {
-
-      //deep dive object
-      users.forEach(el => {
-        if(el.name === res.user && el.role === "player")
-          users.splice(users.indexOf(el), 1)
-      })
-  })
+    
   }
 
   start(data) {
