@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Users } from '../users';
+import { Users } from '../shared/users';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,12 @@ export class UsersService {
       this.userList[room] = new Users(socket_id,username);
     }
   }
+  /** updateScores
+   * Calls the Users class in the specified room and updates a single user's score
+   * @param room 
+   * @param socket_id 
+   * @param score 
+   */
   updateScores(room:string, socket_id:string, score:number){
     if(this.userList[room] != undefined && this.userList[room].constructor.name === 'Users'){
       this.userList[room].updateUserScore(socket_id,score);
@@ -40,5 +46,16 @@ export class UsersService {
     if(this.userList[room].length == 0){
       delete this.userList[room]
     }
+  }
+  /** getList
+   * Retrieves the list of Users within a specific room
+   * If Room does not exist, returns empty list.
+   * @param room
+   */
+  getList(room:string){
+    if(this.userList[room] != undefined && this.userList[room].constructor.name === 'Users'){
+      return this.userList[room].getUserList()
+    }
+    return []
   }
 }
