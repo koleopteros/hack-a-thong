@@ -1,60 +1,57 @@
 import { Injectable } from '@angular/core';
+import { Store } from '../shared/store';
 import { Users } from '../shared/users';
 
 @Injectable({
-  providedIn: 'root'
-})
-export class UsersService {
-  
-  userList = {}
+    providedIn: 'root'
+  })
 
-  constructor() { }
-
-  /** signIn
-   * Check if a userlist for specified room exists, if so, append, else create new room
-   * Also checks if there is a duplicate user, if so, use checkDuplicate to alter the name.
-   * @param username
-   * @param room
-   * @return Void
-   */
-  signIn(room:string, username:string){
-    //check if userlist for room has been made, and ensure it is of the intended class
-    if(this.userList[room] != undefined && this.userList[room].constructor.name === 'Users'){
-      this.userList[room].addUser(username);
-    } else { // insert first user into this new room
-      this.userList[room] = new Users(username);
+export class UserService extends Store<Users>{
+    constructor() {
+        super(new Users());
     }
-  }
-  /** updateScores
-   * Calls the Users class in the specified room and updates a single user's score
-   * @param room 
-   * @param username 
-   * @param score 
-   */
-  updateScores(room:string, username:string, score:number){
-    if(this.userList[room] != undefined && this.userList[room].constructor.name === 'Users'){
-      this.userList[room].updateUserScore(username,score);
+    addUser(id:string, name:string, role:string = 'player'):void{
+        name = this.validateUsername(name)
+        this.setState({...this.state, 
+            userList: [...this.state.userList,{id:id, username:name, role:role, score:0, isConnected:true}]
+            });
     }
-  }
-  /** clearEmptyRoom
-   * just deletes empty rooms.  Since there is no "remove User" from rooms, there isn't much use for this.
-   * potentially useless
-   * @param room 
-   */
-  clearEmptyRoom(room:string){
-    if(this.userList[room].length == 0){
-      delete this.userList[room]
+    addToUserScore(name:string, points:number):void {
+        this.setState({
+          ...this.state,
+          userList: this.state.userList.map(user => {
+            if (user.username == name){
+              return {...user, score: user.score+points};
+            }
+            return user;
+          })
+        });
     }
-  }
-  /** getList
-   * Retrieves the list of Users within a specific room
-   * If Room does not exist, returns empty list.
-   * @param room
-   */
-  getList(room:string){
-    if(this.userList[room] != undefined && this.userList[room].constructor.name === 'Users'){
-      return this.userList[room].getUserList()
+    disconnectedUser(id:string):void{
+      this.setState({
+        ...this.state,
+        userList: this.state.userList.map(user => {
+          if (user.id == id){
+            return {...user, isConnected:false};
+          }
+          return user;
+        })
+      })
     }
-    return []
-  }
+    validID(id:string):boolean{
+      var user = this.state.userList.filter((user)=>{
+        return user.id == id;
+      })
+      return user.length == 0;
+    }
+    validateUsername(username:string, n:number = 0):string{
+      var name = n>0 ? username+n:username;
+      var user = this.state.userList.filter((user)=>{
+        return user.username == name;
+      })
+      if(user.length == 0){
+        name = this.validateUsername(username,n++)
+      }
+      return name;
+    }
 }
