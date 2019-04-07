@@ -26,11 +26,9 @@ export class HomeComponent implements OnInit {
 
   state =false
   loginForm: FormGroup
-  rooms = ['A1TY', 'X5YC']
+
   constructor(
-    private builder: FormBuilder,
-    private socket: SocketService
-    ) { }
+    private builder: FormBuilder) { }
 
   ngOnInit() {
     setInterval(() => {

@@ -69,7 +69,6 @@ export class RoomComponent implements OnInit, OnChanges{
   }
 
   ngOnChanges() {
-
   }
 
   //when the host clicks start game
