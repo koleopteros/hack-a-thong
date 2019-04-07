@@ -7,7 +7,7 @@ import * as io from 'socket.io-client'
   providedIn: 'root'
 })
 export class SocketService{
-  
+
   baseUrl = "http://localhost:5000/"
   socket: any
   private constructor() {
@@ -32,20 +32,37 @@ export class SocketService{
   activateUser(users: Object[], data) {
     this.socket.emit('activeUser', data)
     this.socket.on('activeUser', res => {
-      if(res)
-      {
-        let role = (users.length === 0) ? 'host' : 'player'
-        users.push({
-          name: res.user,
-          role: role  
-        })
+      console.log(res)
+      // if(res)
+      // {
+      //   let role = (users.length === 0) ? 'host' : 'player'
+      //   users.push({
+      //     name: res[res.length],
+      //     role: role
+      //   })
+      // }
+      if(res){
+        for(var i = 0; i<res.length; i++){
+          if(i==0){
+            users.push({
+              name: res[i],
+              role: 'host'
+            })
+          } else {
+            users.push({
+              name: res[i],
+              role: 'player'
+            })
+          }
+
+        }
       }
     })
   }
 
   leftUser(users: any[]) {
     this.socket.on('leftGroup', (res) => {
-      
+
       //deep dive object
       users.forEach(el => {
         if(el.name === res.user && el.role === "player")

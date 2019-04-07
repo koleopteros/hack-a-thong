@@ -32,6 +32,7 @@ const io = socketIO(server)
 
 app.use(cors())
 
+let userNames = []
 // user connect to socket
 io.on('connection', socket => {
   let room = '' // room name is created
@@ -76,12 +77,25 @@ io.on('connection', socket => {
   socket.on('joinRoom', data => {
     socket.join(data.room)
     room = data.room // save the room name
+    userNames.push({
+      name: data.user,
+      id: socket.id
+    })
   })
 
   // Send activeUser to other members in the group
   socket.on('activeUser', data => {
     user = data.user
-    io.in(data.room).emit('activeUser', data)
+    console.log(userNames)
+    io.in(data.room).clients((err, clients)=>{
+      let activeUsers = []
+      userNames.forEach(user => {
+        if(clients.indexOf(user.id) > -1){
+          activeUsers[activeUsers.length] = user.name
+        }
+      })
+      io.in(data.room).emit('activeUser', activeUsers)
+    })
   })
 
   // Announce other members in the group "user has left the group"
