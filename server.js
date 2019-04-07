@@ -51,7 +51,11 @@ io.on('connection', socket => {
     [0,1,2,3].forEach(el => {
       if(data.option === el) votes[el]++
     })
-    io.in(data.room).emit('getVote', votes)
+  })
+
+  socket.on('getVotes', data => {
+    console.log("getVote!!!")
+    io.in(data.room).emit('getVotes', votes)
   })
 
   socket.on('resetVote', () => {

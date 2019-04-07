@@ -74,10 +74,6 @@ export class RoomComponent implements OnInit{
       if(!this.isStarted)
         this.start()
     })
-
-    this.socket.getSocket().on("getVote", votes => {
-      this.voteSer.votes = votes
-    })
   }
 
   //when the host clicks start game
@@ -104,6 +100,10 @@ export class RoomComponent implements OnInit{
 
       if(this.countDown ===0) 
         {
+          this.socket.getSocket().emit('getVotes', this.data)
+          this.socket.getSocket().on("getVotes", votes => {
+            this.voteSer.votes = votes
+          })
           //if time's up and user have yet chosen, disable all
           if(this.voteSer.canVote) this.voteSer.canVote = false
           //Display votes
