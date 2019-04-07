@@ -16,7 +16,8 @@ import { FooterComponent } from './components/footer/footer.component';
 //Gate to backend, IMPORTANT DONT TOUCH or ill kick your butt
 //im not familiar with this so please consult me first before
 //modify this configuration
-import { SocketIoModule} from 'ngx-socket-io'
+import { SocketIoModule} from 'ngx-socket-io';
+import { ApiComponent } from './components/api/api.component'
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SocketIoModule} from 'ngx-socket-io'
     RoomComponent,
     GameoverComponent,
     SideNavComponent,
-    FooterComponent
+    FooterComponent,
+    ApiComponent
   ],
   imports: [
     SocketIoModule,
