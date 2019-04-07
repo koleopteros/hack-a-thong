@@ -7,33 +7,33 @@
 
 export class Users{
     userList = new Map()
-    constructor(socket_id, username){
-        this.addUser(socket_id,username);
+    constructor(username){
+        this.addUser(username);
      }
      /**addUser
       * checks for duplicates, and adjusts names as defined in validateUsername
       * add user to the list
-      * @param socket_id 
       * @param username 
       */
-    addUser(socket_id:string, username:string){
+    addUser(username:string){
         var temp = ''
-        if(this.userList.has(socket_id)){
-            temp = this.checkIfExists(socket_id,username);
-            this.userList.set(socket_id,new User(temp));
+        if(this.userList.has(username)){
+            temp = this.checkIfExists(username);
+            this.userList.set(username,0);
         } else {
             //user with the id doesnt exist
-            this.userList.set(socket_id, new User(username))
+            this.userList.set(username,0)
         }
     }
     /** updateUserScore
-     * increments score of user using their socket_id as their identifier
-     * @param socket_id 
+     * increments score of user using their username as their identifier
      * @param score 
      */
-    updateUserScore(socket_id:string, score:number){
-        if(this.userList.has(socket_id)){
-            this.userList.get(socket_id).addScore(score)
+    updateUserScore(username:string, score:number){
+        var currentScore:number;
+        if(this.userList.has(username)){
+            currentScore = this.userList.get(username) + score;
+            this.userList.set(username, currentScore)
         } //else do nothing
     }
     /** clear
@@ -46,12 +46,11 @@ export class Users{
      * checks if socket_id is already registered.
      *  if so, check if username already exists, and apply any appends necessary
      * returns the username 
-     * @param socket_id 
      * @param username 
      * @returns string
      */
-    checkIfExists(socket_id:string, username:string){
-        if(this.userList.has(socket_id)){
+    checkIfExists(username:string){
+        if(this.userList.has(username)){
             return this.validateUsername(username,0)
         } else { return username }
     }
@@ -64,9 +63,9 @@ export class Users{
      */
     validateUsername(username:string, n:number){
         var temp = '';
-        for(var key in this.userList.keys){
+        for(var name in this.userList.keys()){
             temp = n > 0 ? username+n : username;
-            if(this.userList.get(key).name === temp){
+            if(name === temp){
                 temp = this.validateUsername(username, n++)
             } else {
                 return temp
@@ -83,30 +82,13 @@ export class Users{
         var list = []
         var name:string
         var score:number
-        for(var key in this.userList.keys){
-            name = this.userList.get(key).name
-            score = this.userList.get(key).score
+        for(var name in this.userList.keys){
+            score = this.userList.get(name)
             list.push([name,score]);
         }
         list.sort((x,y) => {
             return y[1] - x[1]
         })
         return list
-    }
-}
-
-class User{
-    name:string;
-    score:number;
-    constructor(username:string){
-        this.name = username;
-        this.score = 0;
-    }
-    addScore(val:number){
-        this.score = this.score + val;
-    }
-    setScore(val:number){
-        //shouldn't be needed, but who knows?
-        this.score = val;
     }
 }
