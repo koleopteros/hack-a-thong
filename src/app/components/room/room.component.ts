@@ -68,8 +68,13 @@ export class RoomComponent implements OnInit{
   //call shortly after constructor
   ngOnInit() {
     this.socket.joinRoom(this.data)
-    this.socket.activateUser(this.users, this.data)
+    this.socket.activateUser(this.data)
     this.socket.leftUser(this.users)
+    this.socket.getSocket().on('activeUser', res => {
+      this.users = []
+      if (res) this.socket.on_activeUser(this.users, res)
+    })
+
     this.socket.getSocket().on("start", data => {
       if(!this.isStarted)
         this.start()
