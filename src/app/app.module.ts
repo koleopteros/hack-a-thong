@@ -13,6 +13,11 @@ import { GameoverComponent } from './components/gameover/gameover.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { FooterComponent } from './components/footer/footer.component';
 
+//Gate to backend, IMPORTANT DONT TOUCH or ill kick your butt
+//im not familiar with this so please consult me first before
+//modify this configuration
+import { SocketIoModule} from 'ngx-socket-io'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +29,7 @@ import { FooterComponent } from './components/footer/footer.component';
     FooterComponent
   ],
   imports: [
+    SocketIoModule,
     MatDialogModule,
     MatSnackBarModule,
     MatBadgeModule,

@@ -6,7 +6,7 @@ import { GameoverComponent } from './components/gameover/gameover.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
-  {path: 'room', component: RoomComponent},
+  {path: 'room/:name/:room', component: RoomComponent},
   {path: 'gameover', component: GameoverComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'}
 ];

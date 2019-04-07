@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, style, state, animate, transition } from '@angular/animations';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
 
   state =false
   loginForm: FormGroup
+
   constructor(
     private builder: FormBuilder) { }
 
@@ -42,9 +44,10 @@ export class HomeComponent implements OnInit {
   get nickname() { return this.loginForm.get('nickname')}
   get code() { return this.loginForm.get('code')}
 
-  toRoom() {
-    if(!this.loginForm.invalid)
-      window.location.assign('/room')
+  joinRoom(nickname, code) {
+    if(!this.loginForm.invalid) {
+      window.location.assign(`/room/${nickname}/${code}`)
+    }
   }
 
 }

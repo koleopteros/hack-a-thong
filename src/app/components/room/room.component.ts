@@ -1,25 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { TimerService } from 'src/app/services/timer.service';
-import { WebSocketService } from 'src/app/services/web-socket.service';
+import { SocketService } from 'src/app/services/socket.service';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss']
 })
-export class RoomComponent implements OnInit {
+export class RoomComponent implements OnInit, OnChanges{
 
   countDown: number = 10
   isStarted = false;
+  data: Object
   //Where we should obtain list of user from backend
   //This is mockup database
   //list of users
-  private users = [
-    {name: 'Bui Duy Hao', role : 'player'},
-    {name: 'Christopher Satin', role : 'player'},
-    {name: 'Quan Trinh', role : 'host'},
-    {name: 'Tam Dang', role : 'player'},
-    {name: 'Jerome Ching', role : 'player'}
+  users = [
+    // {name: 'Bui Duy Hao', role : 'player'},
+    // {name: 'Christopher Satin', role : 'player'},
+    // {name: 'Quan Trinh', role : 'host'},
+    // {name: 'Tam Dang', role : 'player'},
+    // {name: 'Jerome Ching', role : 'player'}
   ]
   //bank of questions, should be obtained randomly. THIS IS BACKEND JOB! ^^
   private bankOfQuestions = [
@@ -50,18 +53,22 @@ export class RoomComponent implements OnInit {
   ]
   constructor(
     private timer: TimerService,
-    private webSocketService: WebSocketService) { }
+    private socket: SocketService,
+    private route: ActivatedRoute) {
+      this.data = {
+        user: this.route.snapshot.paramMap.get('name'),
+        room: this.route.snapshot.paramMap.get('room')
+      }
+    }
 
+  //call shortly after constructor
   ngOnInit() {
-    // this.timer.startTimer()
-    // this.updateCountDown()
+    this.socket.joinRoom(this.data)
+    this.socket.activateUser(this.users, this.data)
+    this.socket.leftUser(this.users)
+  }
 
-    // emit join room event to socket.io server with room code and username
-    // room code and username will be passed from main-screen via url
-    this.webSocketService.emit('join room', {
-      roomName: "#givencode",
-      userName: "#userName"
-    });
+  ngOnChanges() {
   }
 
   //when the host clicks start game
@@ -118,7 +125,10 @@ export class RoomComponent implements OnInit {
   //leave the room
   leaveRoom() {
     if(window.confirm("Are you sure you want to leave?"))
+    {
+      this.socket.leaveRoom(this.data)
       window.location.assign('/home')
+    }
   }
 
 }
