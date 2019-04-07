@@ -9,11 +9,11 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss']
 })
-export class RoomComponent implements OnInit, OnChanges{
+export class RoomComponent implements OnInit{
 
   countDown: number = 10
   isStarted = false;
-  data: Object
+  data: any
   //Where we should obtain list of user from backend
   //This is mockup database
   //list of users
@@ -31,7 +31,9 @@ export class RoomComponent implements OnInit, OnChanges{
       a: 'Abraham Lincoln',
       b: 'Donald Trump',
       c: 'John F. Kennedy',
-      d: 'Bill Clinton'
+      d: 'Bill Clinton',
+      e: 'Bill Clinton',
+      f: 'Bill Clinton'
     },
 
     {
@@ -39,7 +41,9 @@ export class RoomComponent implements OnInit, OnChanges{
       a: 'Flat!!!',
       b: 'Earth Shape',
       c: 'I dont know',
-      d: 'Bill Clinton'
+      d: 'Bill Clinton',
+      e: 'Bill Clinton',
+      f: 'Bill Clinton'
     },
 
     {
@@ -47,7 +51,9 @@ export class RoomComponent implements OnInit, OnChanges{
       a: 'Dog',
       b: 'Cat',
       c: 'Doggo',
-      d: 'Doge'
+      d: 'Doge',
+      e: 'Bill Clinton',
+      f: 'Bill Clinton',
     },
 
   ]
@@ -66,13 +72,15 @@ export class RoomComponent implements OnInit, OnChanges{
     this.socket.joinRoom(this.data)
     this.socket.activateUser(this.users, this.data)
     this.socket.leftUser(this.users)
-  }
-
-  ngOnChanges() {
+    this.socket.getSocket().on("start", data => {
+      if(!this.isStarted)
+        this.start()
+    })
   }
 
   //when the host clicks start game
   start() {
+    this.socket.start(this.data)
     this.isStarted = !this.isStarted
     this.timer.startTimer()
     this.updateCountDown()
@@ -129,6 +137,14 @@ export class RoomComponent implements OnInit, OnChanges{
       this.socket.leaveRoom(this.data)
       window.location.assign('/home')
     }
+  }
+
+  //conditions to make start button valid
+  //conditions included:
+  //number of users needed to start a game
+  //only host can start a game
+  canStart() {
+    return (this.users.length >= 2) 
   }
 
 }

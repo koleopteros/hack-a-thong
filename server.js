@@ -36,7 +36,6 @@ app.use(cors())
 io.on('connection', socket => {
   let room = '' // room name is created
   let user = '' // user name join the room
-  console.log("a user connected")
 
   // user disconnect
   socket.on('disconnect', () => {
@@ -45,13 +44,6 @@ io.on('connection', socket => {
         user: user,
       })
     }
-  })
-
-  // user join room
-  socket.on('join room', (data) => {
-    socket.join(data.roomName)
-    room = data.roomName
-    console.log(`${data.userName} joined room "${data.roomName}"`)
   })
 
   socket.on('vote', data => {
@@ -88,6 +80,12 @@ io.on('connection', socket => {
     socket.to(data.room).emit('leftGroup', data)
     socket.leave(data.room)
   })
+
+  //testing - by Franklin
+  socket.on("start", data => {
+    socket.to(data.room).emit('start', data)
+  })
+
 })
 
 // Use route
