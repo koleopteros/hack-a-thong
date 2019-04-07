@@ -29,46 +29,30 @@ export class SocketService{
   //Notice that in javascript, objects and arrays are passed by ref
   //so this is acceptable, but for single value like number or string
   //it will pass by value thus the value won't change after function called
-  activateUser(users: Object[], data) {
+  activateUser(data) {
     this.socket.emit('activeUser', data)
-    this.socket.on('activeUser', res => {
-      console.log(res)
-      // if(res)
-      // {
-      //   let role = (users.length === 0) ? 'host' : 'player'
-      //   users.push({
-      //     name: res[res.length],
-      //     role: role
-      //   })
-      // }
-      if(res){
-        for(var i = 0; i<res.length; i++){
+  }
+
+  on_activeUser(users: Object[], data) {
+      if(data){
+        for(var i = 0; i<data.length; i++){
           if(i==0){
             users.push({
-              name: res[i],
+              name: data[i],
               role: 'host'
             })
           } else {
             users.push({
-              name: res[i],
+              name: data[i],
               role: 'player'
             })
           }
-
         }
       }
-    })
   }
 
   leftUser(users: any[]) {
-    this.socket.on('leftGroup', (res) => {
-
-      //deep dive object
-      users.forEach(el => {
-        if(el.name === res.user && el.role === "player")
-          users.splice(users.indexOf(el), 1)
-      })
-  })
+    
   }
 
   start(data) {
