@@ -9,11 +9,7 @@
         <ng-template mat-tab-label>
           <mat-icon>dashboard</mat-icon>
         </ng-template>
-        <p>Hao Bui</p>
-        <p>Quan Trinh</p>
-        <p>Jerome</p>
-        <p>Chris</p>
-        <p>Tam Dang</p>
+        <p *ngFor="let user of users"><span>{{user.name}}</span> : {{user.score}}</p>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>

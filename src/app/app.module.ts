@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { MatInputModule, MatFormFieldModule, MatButtonModule, MatIconModule, MatSidenavModule, MatDividerModule, MatTabsModule, MatBadgeModule, MatSnackBarModule, MatDialogModule } from '@angular/material';
+import { MatInputModule, MatFormFieldModule, MatButtonModule, MatIconModule, MatSidenavModule, MatDividerModule, MatTabsModule, MatBadgeModule, MatSnackBarModule, MatDialogModule, MatProgressBarModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,7 +14,8 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 import { SocketIoModule} from 'ngx-socket-io';
-import { ApiComponent } from './components/api/api.component'
+import { ApiComponent } from './components/api/api.component';
+import { AboutComponent } from './components/about/about.component'
 
 @NgModule({
   declarations: [
@@ -25,12 +26,14 @@ import { ApiComponent } from './components/api/api.component'
     GameoverComponent,
     SideNavComponent,
     FooterComponent,
-    ApiComponent
+    ApiComponent,
+    AboutComponent
   ],
   imports: [
     SocketIoModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatProgressBarModule,
     MatBadgeModule,
     MatTabsModule,
     MatDividerModule,

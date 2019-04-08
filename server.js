@@ -6,7 +6,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoURI = 'mongodb://admin:admin123@ds121238.mlab.com:21238/sheepboxhackathon'
-votes = [0,0,0,0]
+
 // Connect to Database
 mongoose
   .connect(mongoURI, { useNewUrlParser: true })
@@ -37,7 +37,7 @@ let userNames = []
 io.on('connection', socket => {
   let room = '' // room name is created
   let user = '' // user name join the room
-
+  votes = [0,0,0,0]
   // user disconnect
   socket.on('disconnect', () => {
     if (room !== '') {
@@ -117,11 +117,11 @@ app.use('/question', questions)
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
-  app.use(express.static('build'))
+  app.use(express.static(__dirname + '/dist/jack-box'))
 
   // Set default file for all routes
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+    res.sendFile(path.resolve(__dirname, 'dist/jack-box/index.html'))
   })
 }
 

@@ -1,5 +1,7 @@
 import { Injectable} from '@angular/core';
-import * as io from 'socket.io-client'
+import * as io from 'socket.io-client';
+import {environment} from '../../environments/environment';
+
 
 //Along the way, i noticed that service is not naturally a singleton as
 // i thought. SocketService should be a singleton service
@@ -8,7 +10,7 @@ import * as io from 'socket.io-client'
 })
 export class SocketService{
 
-  baseUrl = "http://localhost:5000/"
+  baseUrl: string = environment.url;
   socket: any
   private constructor() {
     this.initSocket()
@@ -26,15 +28,29 @@ export class SocketService{
     this.socket.emit('leftGroup', data)
   }
 
-  leftUser(users: any[]) {
-    this.socket.on('leftGroup', (res) => {
+  //Notice that in javascript, objects and arrays are passed by ref
+  //so this is acceptable, but for single value like number or string
+  //it will pass by value thus the value won't change after function called
+  activateUser(data) {
+    this.socket.emit('activeUser', data)
+  }
 
-      //deep dive object
-      users.forEach(el => {
-        if(el.name === res.user && el.role === "player")
-          users.splice(users.indexOf(el), 1)
-      })
-  })
+  on_activeUser(users: Object[], data) {
+      if(data){
+        for(var i = 0; i<data.length; i++){
+          if(i==0){
+            users.push({
+              name: data[i],
+              role: 'host'
+            })
+          } else {
+            users.push({
+              name: data[i],
+              role: 'player'
+            })
+          }
+        }
+      }
   }
 
   start(data) {

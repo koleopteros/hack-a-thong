@@ -3,6 +3,7 @@ import { TimerService } from 'src/app/services/timer.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { ActivatedRoute } from '@angular/router';
 import { VoteService } from 'src/app/services/vote.service';
+import { UserService } from 'src/app/services/users.service';
 
 
 @Component({
@@ -19,9 +20,10 @@ export class RoomComponent implements OnInit{
   //This is mockup database
   //list of users
   users = []
+  option = 0
 
   //bank of questions, should be obtained randomly. THIS IS BACKEND JOB! ^^
-  private bankOfQuestions = [
+  public bankOfQuestions = [
     {
       quiz: 'What is the name of the first President of the USA?',
       a: 'Abraham Lincoln',
@@ -58,33 +60,36 @@ export class RoomComponent implements OnInit{
     private timer: TimerService,
     private socket: SocketService,
     private route: ActivatedRoute,
-    private voteSer: VoteService) {
+    private voteSer: VoteService,
+    private userStore: UserService) {
       this.data = {
         user: this.route.snapshot.paramMap.get('name'),
-        room: this.route.snapshot.paramMap.get('room')
+        room: this.route.snapshot.paramMap.get('room'),
+        score: 0
       }
     }
 
   //call shortly after constructor
   ngOnInit() {
     this.socket.joinRoom(this.data)
-    this.socket.getSocket().emit('activeUser', this.data)
+    this.socket.activateUser(this.data)
     this.socket.getSocket().on('activeUser', res => {
-      if(res)
-      {
-        this.users = []
-        res.forEach(el => {
-          let role = this.users.length <= 0 ? 'host' : 'player'
-          this.users.push({name: el, role: role})
-      })
-      }
+      this.users = []
+      if (res) this.socket.on_activeUser(this.users, res)
     })
 
-    this.socket.leftUser(this.users)
     this.socket.getSocket().on("start", data => {
       if(!this.isStarted)
         this.start()
     })
+
+    this.socket.getSocket().on('leftGroup', (res) => {
+      //deep dive object
+      this.users.forEach(el => {
+        if(el.name === res.user && el.role === "player")
+          this.users.splice(this.users.indexOf(el), 1)
+      })
+  })
   }
 
   //when the host clicks start game
@@ -97,6 +102,7 @@ export class RoomComponent implements OnInit{
 
   //when user clicks on an answer
   vote(option){
+    this.option = option
     this.voteSer.vote(option, this.socket.getSocket(), this.data.room)
   }
 
@@ -113,14 +119,15 @@ export class RoomComponent implements OnInit{
         {
           this.socket.getSocket().emit('getVotes', this.data)
           this.socket.getSocket().on("getVotes", votes => {
-            this.voteSer.votes = votes
+          this.voteSer.votes = votes
           })
           //if time's up and user have yet chosen, disable all
           if(this.voteSer.canVote) this.voteSer.canVote = false
           //Display votes
+          this.data.score += this.voteSer.scoreCalculate(this.option)
         }
         //if timer hits -10 then process to next quiz
-      else if(this.countDown === -10 && this.nextQuiz()) {
+      else if(this.countDown === -3 && this.nextQuiz()) {
         clearInterval(interval)
         this.updateCountDown()
         this.voteSer.canVote = true
@@ -144,6 +151,10 @@ export class RoomComponent implements OnInit{
 
     this.timer.stopTimer()
     this.timer.resetTimer()
+    for(var i =0; i < localStorage.length; i++) {
+      localStorage.removeItem(localStorage.key(i))
+    }
+    localStorage.setItem(this.data.user, this.data.score)
     window.location.assign('/gameover')
 
     return false
@@ -163,7 +174,13 @@ export class RoomComponent implements OnInit{
   //number of users needed to start a game
   //only host can start a game
   canStart() {
-    return (this.users.length >= 3)
+    var canStart: boolean = false
+    this.users.forEach(user => {
+      if (user.role === 'host' && user.name === this.data.user && this.users.length >= 2) {
+        canStart = true
+      }
+    })
+    return canStart
   }
 
 }
