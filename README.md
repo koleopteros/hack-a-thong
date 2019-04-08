@@ -48,3 +48,10 @@ After the game is over, users can choose to restart the game or close the room
  - Downoad the app
  - npm install
  - npm start
+ 
+#### DEVELOPMENT TEAM
+ - Quan Trinh - 101094529
+ - Christopher Satin - 101076623
+ - Bui Duy Hao - 101104656
+ - Tam Dang - 101092895
+ - Jerome Ching - 100530184
