@@ -58,7 +58,8 @@ export class RoomComponent implements OnInit{
     private timer: TimerService,
     private socket: SocketService,
     private route: ActivatedRoute,
-    private voteSer: VoteService) {
+    private voteSer: VoteService
+    ) {
       this.data = {
         user: this.route.snapshot.paramMap.get('name'),
         room: this.route.snapshot.paramMap.get('room')
