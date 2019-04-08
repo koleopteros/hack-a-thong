@@ -6,7 +6,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoURI = 'mongodb://admin:admin123@ds121238.mlab.com:21238/sheepboxhackathon'
-votes = [0,0,0,0]
+
 // Connect to Database
 mongoose
   .connect(mongoURI, { useNewUrlParser: true })
@@ -37,7 +37,7 @@ let userNames = []
 io.on('connection', socket => {
   let room = '' // room name is created
   let user = '' // user name join the room
-
+  votes = [0,0,0,0]
   // user disconnect
   socket.on('disconnect', () => {
     if (room !== '') {
