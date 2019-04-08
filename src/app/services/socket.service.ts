@@ -51,10 +51,6 @@ export class SocketService{
       }
   }
 
-  leftUser(users: any[]) {
-    
-  }
-
   start(data) {
     this.socket.emit("start", data)
   }

@@ -20,6 +20,7 @@ export class RoomComponent implements OnInit{
   //This is mockup database
   //list of users
   users = []
+  option = 0
 
   //bank of questions, should be obtained randomly. THIS IS BACKEND JOB! ^^
   private bankOfQuestions = [
@@ -63,7 +64,8 @@ export class RoomComponent implements OnInit{
     private userStore: UserService) {
       this.data = {
         user: this.route.snapshot.paramMap.get('name'),
-        room: this.route.snapshot.paramMap.get('room')
+        room: this.route.snapshot.paramMap.get('room'),
+        score: 0
       }
     }
 
@@ -100,6 +102,7 @@ export class RoomComponent implements OnInit{
 
   //when user clicks on an answer
   vote(option){
+    this.option = option
     this.voteSer.vote(option, this.socket.getSocket(), this.data.room)
   }
 
@@ -116,14 +119,15 @@ export class RoomComponent implements OnInit{
         {
           this.socket.getSocket().emit('getVotes', this.data)
           this.socket.getSocket().on("getVotes", votes => {
-            this.voteSer.votes = votes
+          this.voteSer.votes = votes
           })
           //if time's up and user have yet chosen, disable all
           if(this.voteSer.canVote) this.voteSer.canVote = false
           //Display votes
+          this.data.score += this.voteSer.scoreCalculate(this.option)
         }
         //if timer hits -10 then process to next quiz
-      else if(this.countDown === -10 && this.nextQuiz()) {
+      else if(this.countDown === -3 && this.nextQuiz()) {
         clearInterval(interval)
         this.updateCountDown()
         this.voteSer.canVote = true
@@ -147,6 +151,10 @@ export class RoomComponent implements OnInit{
 
     this.timer.stopTimer()
     this.timer.resetTimer()
+    for(var i =0; i < localStorage.length; i++) {
+      localStorage.removeItem(localStorage.key(i))
+    }
+    localStorage.setItem(this.data.user, this.data.score)
     window.location.assign('/gameover')
 
     return false
