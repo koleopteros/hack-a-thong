@@ -22,6 +22,10 @@ export class VoteService {
     })
   }
 
+  scoreCalculate(option, user_score) {
+      return user_score += this.votes[option]
+  }
+
   getCurrentVote(option) {
     return option
   }

@@ -1,6 +1,6 @@
 #body {
     display: flex;
-    min-height: 600px;
+    min-height: 650px;
     flex-direction: column;
     align-items: center;
     background-color: #69F0AE;
@@ -17,6 +17,10 @@ h1 {
     padding: 20px;
     border-radius: 6px;
     background-color: white;
+
+    @media screen and (max-width: 600px){
+        width: 250px
+    }
 
     h2 {
         text-align: center;

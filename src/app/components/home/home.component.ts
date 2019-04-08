@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, style, state, animate, transition } from '@angular/animations';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-home',

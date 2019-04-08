@@ -1,34 +1,30 @@
 <app-side-nav>
-<div id="body">
-  <img src="assets/gadget.png" [@rotate]="state">
-  <h1>Sheep</h1>
-  <div id="divside"><p>Each round, a question will be asked.  Four options will be provided to choose from.  The goal of the game is not to pick
-    what you would choose, but to pick what you think most people will choose.  Each round, every player will get a number of
-    points equal to the number of players who have selected the same option.  At the end of the game, whoever has the most
-    points wins!</p></div>
-  <form [formGroup]="loginForm">
-  <div class="tile mat-elevation-z8">
+  <div id="body">
+    <img src="assets/gadget.png" [@rotate]="state">
+    <h1>Party to Sheep</h1>
+    <form [formGroup]="loginForm">
+    <div class="tile mat-elevation-z8">
+        <div class="item">
+          <mat-form-field appearance="outline">
+            <mat-label>Enter a nickname...</mat-label>
+            <input matInput type="text" formControlName="nickname">
+            <mat-icon matSuffix>account_circle</mat-icon>
+            <mat-error *ngIf="nickname.invalid" align="center">Nickname is required</mat-error>
+          </mat-form-field>
+        </div>
+  
+        <div class="item">
+          <mat-form-field appearance="outline">
+              <mat-label>Enter given code</mat-label>
+            <input maxlength="4" class="code" matInput type="text" formControlName="code">
+            <mat-icon matSuffix>code</mat-icon>
+            <mat-error *ngIf="code.invalid" align="center">Code is required</mat-error>
+          </mat-form-field>
+        </div>
       <div class="item">
-        <mat-form-field appearance="outline">
-          <mat-label>Enter a nickname...</mat-label>
-          <input matInput type="text" formControlName="nickname">
-          <mat-icon matSuffix>account_circle</mat-icon>
-          <mat-error *ngIf="nickname.invalid" align="center">Nickname is required</mat-error>
-        </mat-form-field>
+        <button mat-raised-button color="accent" (click)="joinRoom(nickname.value, code.value)">JOIN ROOM</button>
       </div>
-
-      <div class="item">
-        <mat-form-field appearance="outline">
-            <mat-label>Enter given code</mat-label>
-          <input maxlength="4" class="code" matInput type="text" formControlName="code">
-          <mat-icon matSuffix>code</mat-icon>
-          <mat-error *ngIf="code.invalid" align="center">Code is required</mat-error>
-        </mat-form-field>
-      </div>
-    <div class="item">
-      <button mat-raised-button color="accent" (click)="joinRoom(nickname.value, code.value)">JOIN ROOM</button>
     </div>
+    </form>
   </div>
-  </form>
-</div>
-</app-side-nav>  
+  </app-side-nav>  

@@ -3,9 +3,16 @@
     <h1>Navigation Controls</h1>
     <mat-divider></mat-divider>
     <div class="side-item" routerLinkActive="active" routerLink="/home"><h3>Home</h3></div>
-    <div class="side-item"><h3>About Us</h3></div>
-    <div class="side-item"><h3>Repository</h3></div>
-    <div class="side-item"><h3>API</h3></div>
+    <div class="side-item"><h3 routerLink="/about" routerLinkActive="active">About Us</h3></div>
+    <div class="side-item"><h3><a href="https://github.com/koleopteros/hack-a-thong">Repository</a></h3></div>
+    <div class="side-item"><h3><a href="https://socket.io/">API</a></h3></div>
+    <div class="instruction side-item">
+        Each round, a question will be asked.  Four options will be provided to choose from.  The goal of the game is not to pick
+              what you would choose, but to pick what you think most people will choose.  Each round, every player will get a number of
+              points equal to the number of players who have selected the same option.  At the end of the game, whoever has the most
+              points wins!
+      </div>
+    <div class="logo"><img src="assets/loading.png" [@rotate]="state"></div>
   </mat-drawer>
   <mat-drawer-content>
     <button id="side" mat-raised-button (click)="drawer.toggle()"><mat-icon>supervised_user_circle</mat-icon></button>

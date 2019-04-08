@@ -166,7 +166,13 @@ export class RoomComponent implements OnInit{
   //number of users needed to start a game
   //only host can start a game
   canStart() {
-    return (this.users.length >= 2) 
+    var canStart: boolean = false
+    this.users.forEach(user => {
+      if (user.role === 'host' && user.name === this.data.user && this.users.length >= 2) {
+        canStart = true
+      }
+    })
+    return canStart
   }
 
 }
