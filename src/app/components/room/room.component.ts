@@ -3,7 +3,7 @@ import { TimerService } from 'src/app/services/timer.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { ActivatedRoute } from '@angular/router';
 import { VoteService } from 'src/app/services/vote.service';
-import { UsersService } from 'src/app/services/users.service';
+import { UserService } from 'src/app/services/users.service';
 
 
 @Component({
@@ -60,7 +60,7 @@ export class RoomComponent implements OnInit{
     private socket: SocketService,
     private route: ActivatedRoute,
     private voteSer: VoteService,
-    private userStore: UsersService) {
+    private userStore: UserService) {
       this.data = {
         user: this.route.snapshot.paramMap.get('name'),
         room: this.route.snapshot.paramMap.get('room')
@@ -166,7 +166,13 @@ export class RoomComponent implements OnInit{
   //number of users needed to start a game
   //only host can start a game
   canStart() {
-    return (this.users.length >= 2) 
+    var canStart: boolean = false
+    this.users.forEach(user => {
+      if (user.role === 'host' && user.name === this.data.user && this.users.length >= 2) {
+        canStart = true
+      }
+    })
+    return canStart
   }
 
 }
