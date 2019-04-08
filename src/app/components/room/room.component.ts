@@ -22,7 +22,7 @@ export class RoomComponent implements OnInit{
   users = []
 
   //bank of questions, should be obtained randomly. THIS IS BACKEND JOB! ^^
-  private bankOfQuestions = [
+  public bankOfQuestions = [
     {
       quiz: 'What is the name of the first President of the USA?',
       a: 'Abraham Lincoln',
