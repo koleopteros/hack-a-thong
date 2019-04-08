@@ -14,8 +14,18 @@
     cursor: pointer;
 }
 
+.instruction {
+    width: 300px;
+    word-break: normal;
+}
+
 mat-drawer {
     padding: 20px;
+    ::ng-deep {
+        .mat-drawer-inner-container {
+        overflow: hidden;
+    }
+}
 }
 
 img {
