@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run dev",
-    "build": "ng build",
+    "start": "node server.js",
     "test": "ng test",
     "e2e": "ng e2e",
     "server": "nodemon server.js",
     "dev": "concurrently \"npm run server\" \"ng serve --open\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && ng build --prod",
     "lint": "eslint --debug back_end/",
     "lint:write": "eslint --debug back_end/ --fix",
     "prettier": "prettier --write back_end/**/*.js"
@@ -71,5 +71,8 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.1.1"
+  },
+  "engines": {
+    "node": "10.11.0"
   }
 }

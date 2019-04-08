@@ -1,5 +1,7 @@
 import { Injectable} from '@angular/core';
-import * as io from 'socket.io-client'
+import * as io from 'socket.io-client';
+import {environment} from '../../environments/environment';
+
 
 //Along the way, i noticed that service is not naturally a singleton as
 // i thought. SocketService should be a singleton service
@@ -8,7 +10,7 @@ import * as io from 'socket.io-client'
 })
 export class SocketService{
 
-  baseUrl = "http://localhost:5000/"
+  baseUrl: string = environment.url;
   socket: any
   private constructor() {
     this.initSocket()

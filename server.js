@@ -117,11 +117,11 @@ app.use('/question', questions)
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
-  app.use(express.static('build'))
+  app.use(express.static(__dirname + '/dist/jack-box'))
 
   // Set default file for all routes
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+    res.sendFile(path.resolve(__dirname, 'dist/jack-box/index.html'))
   })
 }
 
