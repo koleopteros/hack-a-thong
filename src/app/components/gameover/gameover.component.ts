@@ -12,6 +12,7 @@ export class GameoverComponent implements OnInit {
 
   ngOnInit() {
     for(var i =0 ; i< localStorage.length; i++) {
+      console.log(localStorage.getItem(localStorage.key(i)))
       this.users.push({
         name: localStorage.key(i),
         score: localStorage.getItem(localStorage.key(i))
