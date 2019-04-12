@@ -119,8 +119,6 @@ export class RoomComponent implements OnInit{
           })
           //if time's up and user have yet chosen, disable all
           if(this.voteSer.canVote) this.voteSer.canVote = false
-          //Display votes
-          this.data.score += this.voteSer.scoreCalculate(this.option)
         }
         //if timer hits -10 then process to next quiz
       else if(this.countDown === -3 && this.nextQuiz()) {
@@ -136,6 +134,7 @@ export class RoomComponent implements OnInit{
 
   //process to next pop quiz
   nextQuiz() : boolean {
+    this.data.score += this.voteSer.scoreCalculate(this.option)
     if(this.bankOfQuestions.length > 1) {
       //Result should be displayed here before go to next
       this.bankOfQuestions.shift()
