@@ -19,8 +19,8 @@ router.get('/random', (req, res) => {
   Question.find({}, (err, questions) => {
     if(questions){
       var randomQuestions = []
-      var i=0
       var randomIndex = []
+      var i=0
       while(i<3){
         let index = Math.floor(Math.random() * Math.floor(questions.length))
         console.log(index)
