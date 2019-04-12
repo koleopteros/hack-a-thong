@@ -23,7 +23,6 @@ router.get('/random', (req, res) => {
       var i=0
       while(i<3){
         let index = Math.floor(Math.random() * Math.floor(questions.length))
-        console.log(index)
         if(randomIndex.indexOf(index) == -1){
           randomIndex.push(index)
           randomQuestions.push(questions[index])

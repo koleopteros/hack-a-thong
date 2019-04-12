@@ -4,6 +4,7 @@ import { SocketService } from 'src/app/services/socket.service';
 import { ActivatedRoute } from '@angular/router';
 import { VoteService } from 'src/app/services/vote.service';
 import { UserService } from 'src/app/services/users.service';
+import { QuestionService } from 'src/app/services/question.service';
 
 
 @Component({
@@ -23,38 +24,14 @@ export class RoomComponent implements OnInit{
   option = 0
 
   //bank of questions, should be obtained randomly. THIS IS BACKEND JOB! ^^
-  public bankOfQuestions = [
-    {
-      quiz: 'What is the name of the first President of the USA?',
-      a: 'Abraham Lincoln',
-      b: 'Donald Trump',
-      c: 'John F. Kennedy',
-      d: 'Bill Clinton',
-    },
-
-    {
-      quiz: 'What is the shape of Earth',
-      a: 'Flat!!!',
-      b: 'Earth Shape',
-      c: 'I dont know',
-      d: 'Bill Clinton',
-    },
-
-    {
-      quiz: 'Most loved animal in the world',
-      a: 'Dog',
-      b: 'Cat',
-      c: 'Doggo',
-      d: 'Doge',
-    },
-
-  ]
+  public bankOfQuestions = []
   
   constructor(
     private timer: TimerService,
     private socket: SocketService,
     private route: ActivatedRoute,
     private voteSer: VoteService,
+    private quizSer: QuestionService,
     private userStore: UserService) {
       this.data = {
         user: this.route.snapshot.paramMap.get('name'),
@@ -73,7 +50,10 @@ export class RoomComponent implements OnInit{
       if (res) this.socket.on_activeUser(this.users, res)
     })
 
-    this.socket.getSocket().on("start", data => {
+    this.socket.getSocket().on("start", quizzes => {
+      quizzes.forEach(el => {
+        this.bankOfQuestions.push(el)
+      })
       if(!this.isStarted)
         this.start()
     })
@@ -89,7 +69,10 @@ export class RoomComponent implements OnInit{
 
   //when the host clicks start game
   start() {
-    this.socket.start(this.data)
+    this.quizSer.getQuizzes(this.bankOfQuestions)
+    setTimeout(()=>{
+    this.socket.start({data: this.data, quizzes : this.bankOfQuestions})
+  }, 300)
     this.isStarted = !this.isStarted
     this.timer.startTimer()
     this.updateCountDown()
@@ -119,8 +102,6 @@ export class RoomComponent implements OnInit{
           })
           //if time's up and user have yet chosen, disable all
           if(this.voteSer.canVote) this.voteSer.canVote = false
-          //Display votes
-          this.data.score += this.voteSer.scoreCalculate(this.option)
         }
         //if timer hits -10 then process to next quiz
       else if(this.countDown === -3 && this.nextQuiz()) {
@@ -136,6 +117,7 @@ export class RoomComponent implements OnInit{
 
   //process to next pop quiz
   nextQuiz() : boolean {
+    this.data.score += this.voteSer.scoreCalculate(this.option)
     if(this.bankOfQuestions.length > 1) {
       //Result should be displayed here before go to next
       this.bankOfQuestions.shift()

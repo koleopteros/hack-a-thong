@@ -31,6 +31,10 @@
     position: absolute;
 }
 
+button {
+    word-break: normal;
+}
+
 mat-drawer {
     padding: 70px;
 }
