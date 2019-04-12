@@ -1,6 +1,9 @@
 # jackbox-knockoff
 full stack hack-a-thon (48-72 hr)
 
+# Notice
+To play the game, there must be atleast 3 people in a room. (Can play by openning 3 tabs at the same time)
+
 
 # Idea
 We're going to create a knockoff of "Jack box party" or w/e its called. 
