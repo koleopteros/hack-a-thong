@@ -39,6 +39,7 @@ io.on('connection', socket => {
   let user = '' // user name join the room
   votes = [0,0,0,0]
   scoreBoard = []
+  bankOfQuestion = []
   // user disconnect
   socket.on('disconnect', () => {
     if (room !== '') {
@@ -46,6 +47,11 @@ io.on('connection', socket => {
         user: user,
       })
     }
+  })
+
+  //quizzes
+  socket.on('getQuizzes', data => {
+    
   })
 
   //vote rules
@@ -112,8 +118,13 @@ io.on('connection', socket => {
 
   //testing - by Franklin
   socket.on("start", data => {
-    socket.to(data.room).emit('start', data)
+    if(bankOfQuestion.length <= 0) {
+      data.quizzes.forEach(el => bankOfQuestion.push(el))
+    } 
+    socket.to(data.data.room).emit('start', bankOfQuestion)
   })
+
+
 
 })
 

@@ -18,16 +18,16 @@
         </div>
         <div *ngFor="let q of bankOfQuestions, let i = index">
           <div class="tile mat-elevation-z8" *ngIf="isStarted && i === 0">
-            <h2>{{q.quiz}}</h2>
+            <h2>{{q.question}}</h2>
             <div>
             <div class="item">
-              <button matBadgeColor="accent" matBadge="{{votes[0] > 0 ? votes[0] : '' }}" (click)="vote(0)" [disabled]="!canVote" mat-raised-button>{{q.a}}</button></div>
+              <button matBadgeColor="accent" matBadge="{{votes[0] > 0 ? votes[0] : '' }}" (click)="vote(0)" [disabled]="!canVote" mat-raised-button>{{q.answers[0]}}</button></div>
             <div class="item">
-              <button matBadgeColor="accent" matBadge="{{votes[1] > 0 ? votes[1] : '' }}" (click)="vote(1)" [disabled]="!canVote" mat-raised-button>{{q.b}}</button></div>
+              <button matBadgeColor="accent" matBadge="{{votes[1] > 0 ? votes[1] : '' }}" (click)="vote(1)" [disabled]="!canVote" mat-raised-button>{{q.answers[1]}}</button></div>
             <div class="item">
-              <button matBadgeColor="accent" matBadge="{{votes[2] > 0 ? votes[2] : '' }}" (click)="vote(2)" [disabled]="!canVote" mat-raised-button>{{q.c}}</button></div>
+              <button matBadgeColor="accent" matBadge="{{votes[2] > 0 ? votes[2] : '' }}" (click)="vote(2)" [disabled]="!canVote" mat-raised-button>{{q.answers[2]}}</button></div>
             <div class="item">
-              <button matBadgeColor="accent" matBadge="{{votes[3] > 0 ? votes[3] : '' }}" (click)="vote(3)" [disabled]="!canVote" mat-raised-button>{{q.d}}</button></div>
+              <button matBadgeColor="accent" matBadge="{{votes[3] > 0 ? votes[3] : '' }}" (click)="vote(3)" [disabled]="!canVote" mat-raised-button>{{q.answers[3]}}</button></div>
           </div>
           </div>
         </div>

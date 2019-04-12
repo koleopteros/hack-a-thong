@@ -14,6 +14,7 @@ import { FooterComponent } from './components/footer/footer.component';
 
 import { SocketIoModule} from 'ngx-socket-io';
 import { AboutComponent } from './components/about/about.component'
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AboutComponent } from './components/about/about.component'
   ],
   imports: [
     SocketIoModule,
+    HttpClientModule,
     MatDialogModule,
     MatSnackBarModule,
     MatProgressBarModule,
