@@ -7,29 +7,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MainScreenComponent } from './components/main-screen/main-screen.component';
 import { RoomComponent } from './components/room/room.component';
 import { GameoverComponent } from './components/gameover/gameover.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { FooterComponent } from './components/footer/footer.component';
 
-//Gate to backend, IMPORTANT DONT TOUCH or ill kick your butt
-//im not familiar with this so please consult me first before
-//modify this configuration
 import { SocketIoModule} from 'ngx-socket-io';
-import { ApiComponent } from './components/api/api.component';
 import { AboutComponent } from './components/about/about.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    MainScreenComponent,
     RoomComponent,
     GameoverComponent,
     SideNavComponent,
     FooterComponent,
-    ApiComponent,
     AboutComponent
   ],
   imports: [
