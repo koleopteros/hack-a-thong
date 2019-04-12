@@ -9,6 +9,7 @@ export class VoteService {
   votes = [0,0,0,0]
   canVote = true
 
+
   constructor() { }
 
   vote(option, socket: Socket, room) {

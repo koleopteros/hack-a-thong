@@ -38,6 +38,7 @@ io.on('connection', socket => {
   let room = '' // room name is created
   let user = '' // user name join the room
   votes = [0,0,0,0]
+  scoreBoard = []
   // user disconnect
   socket.on('disconnect', () => {
     if (room !== '') {
@@ -55,12 +56,10 @@ io.on('connection', socket => {
   })
 
   socket.on('getVotes', data => {
-    console.log("getVote!!!")
     io.in(data.room).emit('getVotes', votes)
   })
 
   socket.on('resetVote', () => {
-    console.log("Votes are reseted")
     votes = [0,0,0,0]
   })
 
@@ -86,7 +85,6 @@ io.on('connection', socket => {
   // Send activeUser to other members in the group
   socket.on('activeUser', data => {
     user = data.user
-    console.log(userNames)
     io.in(data.room).clients((err, clients)=>{
       let activeUsers = []
       userNames.forEach(user => {
@@ -102,6 +100,14 @@ io.on('connection', socket => {
   socket.on('leftGroup', data => {
     socket.to(data.room).emit('leftGroup', data)
     socket.leave(data.room)
+  })
+
+  socket.on('addScore', data => {
+    scoreBoard.push(data)
+  })
+
+  socket.on('getScoreBoard', () => {
+    socket.emit('returnScoreBoard', scoreBoard)
   })
 
   //testing - by Franklin

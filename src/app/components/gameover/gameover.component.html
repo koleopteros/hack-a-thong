@@ -9,17 +9,19 @@
         <ng-template mat-tab-label>
           <mat-icon>dashboard</mat-icon>
         </ng-template>
-        <p *ngFor="let user of users"><span>{{user.name}}</span> : {{user.score}}</p>
-      </mat-tab>
+        <div class="item" *ngFor="let user of sortedScore, let i = index">
+          <div class="left"><mat-icon color="accent">{{i === 0 ? 'grade' : ''}}</mat-icon>{{user.name}}</div>
+          <div class="right"><mat-icon></mat-icon>{{user.score}}</div>
+        </div>
+        </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>access_time</mat-icon>
         </ng-template>
-        <p>Hao Bui</p>
-        <p>Quan Trinh</p>
-        <p>Jerome</p>
-        <p>Chris</p>
-        <p>Tam Dang</p>
+        <div class="item" *ngFor="let user of sortedTime, let i = index">
+            <div class="left"><mat-icon color="accent">{{i === 0 ? 'grade' : ''}}</mat-icon>{{user.name}}</div>
+            <div class="right"><mat-icon></mat-icon>{{user.time}}s</div>
+          </div>
       </mat-tab>
     </mat-tab-group>
   </div>

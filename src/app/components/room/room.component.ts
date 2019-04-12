@@ -30,8 +30,6 @@ export class RoomComponent implements OnInit{
       b: 'Donald Trump',
       c: 'John F. Kennedy',
       d: 'Bill Clinton',
-      e: 'Bill Clinton',
-      f: 'Bill Clinton'
     },
 
     {
@@ -40,8 +38,6 @@ export class RoomComponent implements OnInit{
       b: 'Earth Shape',
       c: 'I dont know',
       d: 'Bill Clinton',
-      e: 'Bill Clinton',
-      f: 'Bill Clinton'
     },
 
     {
@@ -50,8 +46,6 @@ export class RoomComponent implements OnInit{
       b: 'Cat',
       c: 'Doggo',
       d: 'Doge',
-      e: 'Bill Clinton',
-      f: 'Bill Clinton',
     },
 
   ]
@@ -65,7 +59,8 @@ export class RoomComponent implements OnInit{
       this.data = {
         user: this.route.snapshot.paramMap.get('name'),
         room: this.route.snapshot.paramMap.get('room'),
-        score: 0
+        score: 0,
+        time : 0
       }
     }
 
@@ -102,6 +97,7 @@ export class RoomComponent implements OnInit{
 
   //when user clicks on an answer
   vote(option){
+    this.data.time += this.countDown
     this.option = option
     this.voteSer.vote(option, this.socket.getSocket(), this.data.room)
   }
@@ -151,11 +147,17 @@ export class RoomComponent implements OnInit{
 
     this.timer.stopTimer()
     this.timer.resetTimer()
-    for(var i =0; i < localStorage.length; i++) {
-      localStorage.removeItem(localStorage.key(i))
-    }
-    localStorage.setItem(this.data.user, this.data.score)
-    window.location.assign('/gameover')
+    this.socket.getSocket().emit("addScore", {
+      name: this.data.user,
+      score: this.data.score,
+      time: 30 - this.data.time
+    })
+
+    this.socket.getSocket().emit("getScoreBoard")
+    this.socket.getSocket().on("returnScoreBoard", data => {
+      localStorage.setItem(this.data.room, JSON.stringify(data))
+      window.location.assign('/gameover/'+this.data.room)
+    })
 
     return false
   }
@@ -176,7 +178,7 @@ export class RoomComponent implements OnInit{
   canStart() {
     var canStart: boolean = false
     this.users.forEach(user => {
-      if (user.role === 'host' && user.name === this.data.user && this.users.length >= 2) {
+      if (user.role === 'host' && user.name === this.data.user && this.users.length >= 3) {
         canStart = true
       }
     })

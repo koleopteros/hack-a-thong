@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-gameover',
@@ -6,18 +7,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./gameover.component.scss']
 })
 export class GameoverComponent implements OnInit {
-
-  users = []
-  constructor() { }
+  sortedScore = []
+  sortedTime  = []
+  constructor(private route : ActivatedRoute) {
+  }
 
   ngOnInit() {
-    for(var i =0 ; i< localStorage.length; i++) {
-      console.log(localStorage.getItem(localStorage.key(i)))
-      this.users.push({
-        name: localStorage.key(i),
-        score: localStorage.getItem(localStorage.key(i))
-      })
-    }
+    let room = this.route.snapshot.paramMap.get('room')
+    setTimeout(() =>{
+    let data = JSON.parse(localStorage.getItem(room))
+    data.forEach(el => {
+      this.sortedTime.push(el)
+      this.sortedScore.push(el)
+    })
+    this.sortedTime.sort((a,b) => {
+      return a.time -b.time
+    })
+
+    this.sortedScore.sort((a,b) => {
+      return b.score - a.score
+     })
+  }, 500)
   }
 
 }
