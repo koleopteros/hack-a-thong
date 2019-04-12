@@ -8,7 +8,7 @@ import { AboutComponent } from './components/about/about.component';
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'room/:name/:room', component: RoomComponent},
-  {path: 'gameover', component: GameoverComponent},
+  {path: 'gameover/:room', component: GameoverComponent},
   {path: 'about', component: AboutComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'}
 ];
