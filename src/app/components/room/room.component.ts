@@ -51,7 +51,7 @@ export class RoomComponent implements OnInit{
     })
 
     this.socket.getSocket().on("start", quizzes => {
-      // If isStarted is false, it means that this is not the host so quizzes is added to the bank 
+      // If isStarted is false, it means that this is not the host so quizzes are added to the bank 
       if(!this.isStarted) {
         quizzes.forEach(el => {
             this.bankOfQuestions.push(el)
