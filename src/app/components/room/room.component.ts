@@ -51,11 +51,13 @@ export class RoomComponent implements OnInit{
     })
 
     this.socket.getSocket().on("start", quizzes => {
-      quizzes.forEach(el => {
-        this.bankOfQuestions.push(el)
-      })
-      if(!this.isStarted)
+      // If isStarted is false, it means that this is not the host so quizzes is added to the bank 
+      if(!this.isStarted) {
+        quizzes.forEach(el => {
+            this.bankOfQuestions.push(el)
+        })
         this.start()
+      }
     })
 
     this.socket.getSocket().on('leftGroup', (res) => {
@@ -69,10 +71,15 @@ export class RoomComponent implements OnInit{
 
   //when the host clicks start game
   start() {
-    this.quizSer.getQuizzes(this.bankOfQuestions)
-    setTimeout(()=>{
-    this.socket.start({data: this.data, quizzes : this.bankOfQuestions})
-  }, 300)
+    // the start event must only be fired once and by the host
+    this.users.forEach(user => {
+      if (user.name === this.data.user && user.role === 'host') {
+        this.quizSer.getQuizzes(this.bankOfQuestions)
+        setTimeout(()=>{
+          this.socket.start({data: this.data, quizzes : this.bankOfQuestions})
+        }, 300)
+      }
+    })
     this.isStarted = !this.isStarted
     this.timer.startTimer()
     this.updateCountDown()
